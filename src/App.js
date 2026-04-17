@@ -157,7 +157,7 @@ function App() {
             <div className="field">
               <img
                 src={URL.createObjectURL(imageFile)}
-                alt="Uploaded property photo"
+                alt="Uploaded property"
                 style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }}
               />
             </div>
