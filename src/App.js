@@ -21,9 +21,10 @@ function App() {
     formData.append("rules", rulesFile);
 
     setLoadingRules(true);
-    setRulesStatus("");`${BACKEND_URL}/api/upload-rules`
+    setRulesStatus("");
+  const uploadRulesUrl = `${BACKEND_URL}/api/upload-rules`;
     try {
-      const res = await axios.post("http://localhost:4000/api/upload-rules", formData, {
+      const res = await axios.post(uploadRulesUrl, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setRulesStatus(`Rules uploaded: (${res.data.chars} characters).`);
