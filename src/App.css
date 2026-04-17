@@ -1,38 +1,114 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.app-root {
+  font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #14213d;
+  background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
   min-height: 100vh;
+  padding: 32px;
+}
+
+.hero {
+  max-width: 1000px;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+
+.hero h1 {
+  font-family: 'libre baskerville', serif;
+  margin: 0 0 8px 0;
+  font-size: 80px;
+  line-height: 1.05;
+  font-weight: 700;
+  color: #1a3f14;
+}
+
+
+.tagline {
+  margin: 0;
+  color: #3b5068;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 620px;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 18px auto 0;
+}
+
+.card {
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(18, 38, 63, 0.08) inset;
+  padding: 20px;
+}
+
+.card h3 {
+  font-family: 'Libre Baskerville', serif;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #0b2545;
+}
+
+.controls .field {
+  margin-bottom: 12px;
+}
+
+.btn {
+  background: #3c822f;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit, bold;
+}
+
+.btn-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.btn.secondary {
+  background: #82d041;
+  color: #ffffff;
+  border: none;
+  font-family: inherit, bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.results pre {
+  margin: 0;
+  font-size: 18px;
+  color: #0b2545;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-family: 'Andada Pro';
+}
+.openai-result {
+  font-family: 'Andada Pro';
+  font-size: 18px;
+}
+
+.footer {
+  max-width: 1000px;
+  margin: 28px auto 0;
+  text-align: right;
+  color: #215dcd;
+  font-size: 13px;
+}
+
+@media (max-width: 880px) {
+  .container {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
+  .hero h1 {
+    font-size: 28px;
+  }
+  .tagline {
+    font-size: 14px;
   }
 }
