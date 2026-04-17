@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "https://hoa-backend-rnhi.onrender.com";
 
 function App() {
   const [rulesFile, setRulesFile] = useState(null);
