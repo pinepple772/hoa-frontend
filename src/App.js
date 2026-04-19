@@ -19,6 +19,7 @@ function App() {
 
     const formData = new FormData();
     formData.append("rules", rulesFile);
+    formData.append("rulesText", rulesText);
 
     setLoadingRules(true);
     setRulesStatus("");
