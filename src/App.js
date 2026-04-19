@@ -6,6 +6,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "https://hoa-backend-rn
 
 function App() {
   const [rulesFile, setRulesFile] = useState(null);
+  const [rulesText, setRulesText] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [rulesStatus, setRulesStatus] = useState("");
   const [openAIResult, setOpenAIResult] = useState(null);
@@ -19,15 +20,18 @@ function App() {
 
     const formData = new FormData();
     formData.append("rules", rulesFile);
-    formData.append("rulesText", rulesText);
 
     setLoadingRules(true);
     setRulesStatus("");
-  const uploadRulesUrl = `${BACKEND_URL}/api/upload-rules`;
+
+    const uploadRulesUrl = `${BACKEND_URL}/api/upload-rules`;
+
     try {
       const res = await axios.post(uploadRulesUrl, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
+      setRulesText(res.data.text);
       setRulesStatus(`Rules uploaded: (${res.data.chars} characters).`);
     } catch (err) {
       console.error(err);
@@ -42,9 +46,11 @@ function App() {
 
     const formData = new FormData();
     formData.append("image", imageFile);
+    formData.append("rulesText", rulesText);
 
     setLoadingOpenAI(true);
     setOpenAIResult(null);
+
     try {
       const res = await axios.post(`${BACKEND_URL}/api/analyze-openai`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -88,7 +94,9 @@ function App() {
         return Object.entries(parsed).map(([k,v]) => (
           <div key={k} style={{marginBottom:8}}>
             <strong>{k}:</strong>
-            <div style={{marginLeft:8, whiteSpace:"pre-wrap"}}>{typeof v === "string" ? v : JSON.stringify(v, null, 2)}</div>
+            <div style={{marginLeft:8, whiteSpace:"pre-wrap"}}>
+              {typeof v === "string" ? v : JSON.stringify(v, null, 2)}
+            </div>
           </div>
         ));
       } catch (e) {
@@ -115,7 +123,9 @@ function App() {
     return Object.entries(res).map(([k,v]) => (
       <div key={k} style={{marginBottom:8}}>
         <strong>{k}:</strong>
-        <div style={{marginLeft:8, whiteSpace:"pre-wrap"}}>{typeof v === "string" ? v : JSON.stringify(v, null, 2)}</div>
+        <div style={{marginLeft:8, whiteSpace:"pre-wrap"}}>
+          {typeof v === "string" ? v : JSON.stringify(v, null, 2)}
+        </div>
       </div>
     ));
   }
@@ -124,12 +134,15 @@ function App() {
     <div className="app-root">
       <header className="hero">
         <h1>VergeAI</h1>
-        <p className="tagline">Upload your HOA rule document and a property photo to check compliance.</p>
+        <p className="tagline">
+          Upload your HOA rule document and a property photo to check compliance.
+        </p>
       </header>
 
       <main className="container">
         <div className="card controls">
           <h3>1. Upload HOA Rules</h3>
+
           <div className="field">
             <input
               type="file"
@@ -137,16 +150,19 @@ function App() {
               onChange={(e) => setRulesFile(e.target.files[0])}
             />
           </div>
+
           <div className="field">
             <button className="btn" onClick={uploadRules} disabled={loadingRules || !rulesFile}>
               {loadingRules ? "Uploading..." : "Upload Rules"}
             </button>
           </div>
+
           {rulesStatus && <p className="muted">{rulesStatus}</p>}
 
           <hr style={{ margin: "16px 0" }} />
 
           <h3>2. Upload Property Photo</h3>
+
           <div className="field">
             <input
               type="file"
@@ -154,6 +170,7 @@ function App() {
               onChange={(e) => setImageFile(e.target.files[0])}
             />
           </div>
+
           {imageFile && (
             <div className="field">
               <img
@@ -163,10 +180,12 @@ function App() {
               />
             </div>
           )}
+
           <div className="field btn-group">
-            <button className="btn" onClick={analyzeOpenAI} disabled={loadingOpenAI || !imageFile}>
+            <button className="btn" onClick={analyzeOpenAI} disabled={loadingOpenAI || !imageFile || !rulesText}>
               {loadingOpenAI ? "your grass looks real nice..." : "Analyze!"}
             </button>
+
             <button className="btn secondary" onClick={analyzeVision} disabled={loadingVision || !imageFile}>
               {loadingVision ? "Counting bushes..." : "Label (for fun)"}
             </button>
@@ -188,7 +207,9 @@ function App() {
         </div>
       </main>
 
-      <footer className="footer">*Please only use this as a reference, not a legal document. We are not regulated by your HOA.</footer>
+      <footer className="footer">
+        *Please only use this as a reference, not a legal document. We are not regulated by your HOA.
+      </footer>
     </div>
   );
 }
