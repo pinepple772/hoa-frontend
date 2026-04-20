@@ -15,6 +15,8 @@ function App() {
   const [loadingOpenAI, setLoadingOpenAI] = useState(false);
   const [loadingVision, setLoadingVision] = useState(false);
 
+console.log("BACKEND_URL:", BACKEND_URL);
+
   const uploadRules = async () => {
     if (!rulesFile) return;
 
